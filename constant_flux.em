@@ -3,7 +3,6 @@
 #
 
 Stepper ODEStepper( DE1 )
-#Stepper FixedODE1Stepper( DE1 )
 {
 	# no property
 }
@@ -25,11 +24,6 @@ System System( / )
 	
 	Variable Variable( S2 )
 	{
-		Value	0;
-	}
-	
-	Variable Variable( E )
-	{
 		Value	1000;
 	}
 	
@@ -42,7 +36,7 @@ System System( / )
 	
 	Process ConstantFluxProcess( C_S2 )
 	{
-		k 0.003;
+		k -3;
 		VariableReferenceList	[ S0 :.:S2 1 ];
 		
 	}	
