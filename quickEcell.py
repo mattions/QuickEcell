@@ -31,8 +31,13 @@ class QuickEcell():
         
         loggers = {}
         for var in variables:
-        	loggers[var] = self.ses.createLoggerStub('Variable:/:' + var + ':Value')
-	        loggers[var].create()
+        	try:
+        		loggers[var] = self.ses.createLoggerStub('Variable:/:' + var + ':Value')
+	        	loggers[var].create()
+	        except RuntimeError:
+	        	print "Variable %s not in the model" %var
+	        	print "You need to use the same name you've used in the em file."
+	        
         return loggers
 
     def run_and_plot(self, time, variables, loggers):
@@ -45,9 +50,11 @@ class QuickEcell():
         
     def plotVar(self, var, loggers):
         "Plot the specific variable"
-        var_array = loggers[var].getData()
-    #    print var_array
-        plt.plot(var_array[:,0], var_array[:,1], label=var)
+        try:
+        	var_array = loggers[var].getData()
+    		plt.plot(var_array[:,0], var_array[:,1], label=var)
+    	except RuntimeError:
+    		print "Var %s not in the loggers. Skipping" %var
     
 def demo():
     """Demo method. This should be the skeleton of your simulation"""
@@ -56,24 +63,27 @@ def demo():
     variables = ['S', 'P']
     loggers = qE.create_loggers(variables)
     qE.run_and_plot(1000, variables, loggers)
+    plt.title("Test for Michaelis-Menten")
     plt.show()
 
 def demo_flux():
     """demo method to test the flux negative constant"""
     
-    qE = QuickEcell('simple_ecell_mod.eml')
-    variables = ['S', 'P']
+    qE = QuickEcell('constant_flux.eml')
+    variables = ['S1', 'S2']
     flux = qE.ses.createEntityStub('Process:/:C_S1')
     flux2 = qE.ses.createEntityStub('Process:/:C_S2')
     loggers = qE.create_loggers(variables)
     qE.ses.run(100)
     flux['k'] = -10
-    flux['k'] = +4
+    flux2['k'] = +4
     qE.run_and_plot(300, variables, loggers)
+    plt.title('Test fo Constant Flux')
     plt.show()
 
 if __name__ == '__main__' :
-    print "Running the Demo"
-    #demo()
+    print "Running the Demos"
+    demo()
+    plt.figure()
     demo_flux()
 
