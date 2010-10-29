@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 class QuickEcell():
 
-    def __init__(filename):
+    def __init__(self, filename):
         """Initialize Ecell simulator creating a session and a simulator object
         and loading the model."""
         # set DM library   
@@ -17,64 +17,73 @@ class QuickEcell():
         # create sim obj
         self.sim = ecell.emc.Simulator()
         # create the session obj
-        self.ses = Session.Session(sim, changeDirectory=False)
+        self.ses = Session.Session(self.sim, changeDirectory=False)
         # Lod the model
         try:
-            ses.loadModel(filename)
+            self.ses.loadModel(filename)
         except IOError:
             print "File %s not found." %filename
         
         
-    def create_loggers(variables):
+    def create_loggers(self, variables):
         """Create the loggers. The variable name is the Key, the ecell logger obj 
         is the Value"""
         
         loggers = {}
         for var in variables:
-            try:
-                loggers[var] = ses.createLoggerStub('Variable:/:' + var + ':Value')
-                loggers[var].create()
-            except Error:
-                print "The variable %s is not present in the model." %var
-                print "Did you by chance mispelled?"
+        	try:
+        		loggers[var] = self.ses.createLoggerStub('Variable:/:' + var + ':Value')
+	        	loggers[var].create()
+	        except RuntimeError:
+	        	print "Variable %s not in the model" %var
+	        	print "You need to use the same name you've used in the em file."
+	        
         return loggers
 
-    def run_and_plot(time, variables):
+    def run_and_plot(self, time, variables, loggers):
         """Run the simulator and plot all the variables in the variables."""
 
         self.ses.run(time)        
         for var in variables:
-            plotVar(var)
+            self.plotVar(var, loggers)
         plt.legend(loc=0)
         
-    def plotVar(var):
+    def plotVar(self, var, loggers):
         "Plot the specific variable"
-        var_array = loggers[var].getData()
-    #    print var_array
-        plt.plot(var_array[:,0], var_array[:,1], label=var)
+        try:
+        	var_array = loggers[var].getData()
+    		plt.plot(var_array[:,0], var_array[:,1], label=var)
+    	except RuntimeError:
+    		print "Var %s not in the loggers. Skipping" %var
     
 def demo():
     """Demo method. This should be the skeleton of your simulation"""
     
     qE = QuickEcell('simple_ecell_mod.eml')
     variables = ['S', 'P']
-    loggers = qE.createLoggers(variables)
-    qE.run_and_plot(1000, variables)
+    loggers = qE.create_loggers(variables)
+    qE.run_and_plot(1000, variables, loggers)
+    plt.title("Test for Michaelis-Menten")
+    plt.show()
 
-def demo_flux()
+def demo_flux():
     """demo method to test the flux negative constant"""
     
-    qE = QuickEcell('simple_ecell_mod.eml')
-    variables = ['S', 'P']
+    qE = QuickEcell('constant_flux.eml')
+    variables = ['S1', 'S2']
     flux = qE.ses.createEntityStub('Process:/:C_S1')
     flux2 = qE.ses.createEntityStub('Process:/:C_S2')
-    loggers = qE.createLoggers(variables)
+    loggers = qE.create_loggers(variables)
     qE.ses.run(100)
     flux['k'] = -10
-    flux['k'] = +4
-    qE.run_and_plot(300)
+    flux2['k'] = +4
+    qE.run_and_plot(300, variables, loggers)
+    plt.title('Test fo Constant Flux')
+    plt.show()
 
 if __name__ == '__main__' :
-    print "Running the Demo"
+    print "Running the Demos"
     demo()
+    plt.figure()
+    demo_flux()
 

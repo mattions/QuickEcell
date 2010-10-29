@@ -18,14 +18,15 @@ The classical skeleton is found in the demo class::
     loggers = qE.createLoggers(variables)
     
     # Run and plot it.
-    qE.run_and_plot(1000, variables)
+    qE.run_and_plot(1000, variables, loggers)
     
 
 Basically copy and paste that as your main script, or create a main method which
 resembles this one.
 
-There is also a `demo2` which actually test the Constant Flux. Maybe can be of 
-some use to someone.
+There is also a `demo_flux` which actually test the Constant Flux. Maybe can be of some use to someone.
+
+If the module is launched as main it just run the two demos.
 
 *******
 License
