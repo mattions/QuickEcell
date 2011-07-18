@@ -45,10 +45,10 @@ class QuickEcell():
 
         self.ses.run(time)        
         for var in variables:
-            self.plotVar(var, loggers)
+            self.plot_var(var, loggers)
         plt.legend(loc=0)
         
-    def plotVar(self, var, loggers):
+    def plot_var(self, var, loggers):
         "Plot the specific variable"
         try:
         	var_array = loggers[var].getData()
