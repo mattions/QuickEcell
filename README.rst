@@ -32,8 +32,7 @@ If the module is launched as main it just run the two demos.
 License
 *******
 
-Under public domain. If you want link it otherwise forget it.
-
+Under GPL3 http://www.gnu.org/licenses/gpl-3.0.html
 
 Have fun,
 Michele Mattioni.
