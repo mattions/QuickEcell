@@ -3,7 +3,7 @@ Quick Ecell README
 ******************
 
 This is a file that shows out to to use ecell in an `ipython` session with the 
-`pylab` integration.
+`pylab` integration. Note that you need to convert the `.em` to `.eml` files first. This can be done using the ecell3-em2eml command.
 
 The classical skeleton is found in the demo class::
 
@@ -32,8 +32,7 @@ If the module is launched as main it just run the two demos.
 License
 *******
 
-Under public domain. If you want link it otherwise forget it.
-
+Under GPL3 http://www.gnu.org/licenses/gpl-3.0.html
 
 Have fun,
 Michele Mattioni.
