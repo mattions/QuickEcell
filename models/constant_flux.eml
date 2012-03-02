@@ -1,0 +1,77 @@
+<?xml version="1.0" ?>
+<eml>
+<stepper class="ODEStepper" id="DE1"/>
+<system class="System" id="/">
+<property name="Name">
+<value>
+The root system
+</value>
+</property>
+<property name="StepperID">
+<value>
+DE1
+</value>
+</property>
+<variable class="Variable" id="SIZE">
+<property name="Value">
+<value>
+1e-18
+</value>
+</property>
+</variable>
+<variable class="Variable" id="S1">
+<property name="Value">
+<value>
+0
+</value>
+</property>
+</variable>
+<variable class="Variable" id="S2">
+<property name="Value">
+<value>
+1000
+</value>
+</property>
+</variable>
+<process class="ConstantFluxProcess" id="C_S1">
+<property name="k">
+<value>
+10
+</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:S1
+</value>
+<value>
+1
+</value>
+</value>
+</property>
+</process>
+<process class="ConstantFluxProcess" id="C_S2">
+<property name="k">
+<value>
+-3
+</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:S2
+</value>
+<value>
+1
+</value>
+</value>
+</property>
+</process>
+</system>
+</eml>

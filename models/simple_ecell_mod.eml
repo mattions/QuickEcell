@@ -1,0 +1,91 @@
+<?xml version="1.0" ?>
+<eml>
+<stepper class="ODEStepper" id="DE1"/>
+<system class="System" id="/">
+<property name="Name">
+<value>
+The root system
+</value>
+</property>
+<property name="StepperID">
+<value>
+DE1
+</value>
+</property>
+<variable class="Variable" id="SIZE">
+<property name="Value">
+<value>
+1e-18
+</value>
+</property>
+</variable>
+<variable class="Variable" id="S">
+<property name="Value">
+<value>
+1000000
+</value>
+</property>
+</variable>
+<variable class="Variable" id="P">
+<property name="Value">
+<value>
+0
+</value>
+</property>
+</variable>
+<variable class="Variable" id="E">
+<property name="Value">
+<value>
+1000
+</value>
+</property>
+</variable>
+<process class="MichaelisUniUniFluxProcess" id="E">
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:S
+</value>
+<value>
+-1
+</value>
+</value>
+<value>
+<value>
+P0
+</value>
+<value>
+:.:P
+</value>
+<value>
+1
+</value>
+</value>
+<value>
+<value>
+C0
+</value>
+<value>
+:.:E
+</value>
+<value>
+0
+</value>
+</value>
+</property>
+<property name="KmS">
+<value>
+1
+</value>
+</property>
+<property name="KcF">
+<value>
+10
+</value>
+</property>
+</process>
+</system>
+</eml>
