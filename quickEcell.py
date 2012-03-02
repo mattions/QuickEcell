@@ -1,4 +1,4 @@
-import ecell.Session as Session
+from mySession import Session
 import ecell.ecs
 import ecell.config
 import ecell.emc
@@ -17,12 +17,12 @@ class QuickEcell():
         # create sim obj
         self.sim = ecell.emc.Simulator()
         # create the session obj
-        self.ses = Session.Session(self.sim, changeDirectory=False)
+        self.ses = Session(self.sim, changeDirectory=False)
         # Lod the model
         try:
             self.ses.loadModel(filename)
         except IOError:
-            print "File %s not found." %filename
+            print "IOError: File %s not found." %filename
         
         
     def create_loggers(self, variables):
@@ -59,7 +59,7 @@ class QuickEcell():
 def demo():
     """Demo method. This should be the skeleton of your simulation"""
     
-    qE = QuickEcell('simple_ecell_mod.eml')
+    qE = QuickEcell(os.path.join('models', 'simple_ecell_mod.eml'))
     variables = ['S', 'P']
     loggers = qE.create_loggers(variables)
     qE.run_and_plot(1000, variables, loggers)
@@ -69,7 +69,7 @@ def demo():
 def demo_flux():
     """demo method to test the flux negative constant"""
     
-    qE = QuickEcell('constant_flux.eml')
+    qE = QuickEcell(os.path.join('models', 'constant_flux.eml'))
     variables = ['S1', 'S2']
     flux = qE.ses.createEntityStub('Process:/:C_S1')
     flux2 = qE.ses.createEntityStub('Process:/:C_S2')
@@ -83,6 +83,7 @@ def demo_flux():
 
 if __name__ == '__main__' :
     print "Running the Demos"
+    print 
     demo()
     plt.figure()
     demo_flux()
